@@ -2,6 +2,7 @@
 #include "lib.hpp"
 
 using namespace std;
+using namespace cv;
 
 void showImage(cv::Mat img, std::string nameOfWindow, int timeInMilliSeconds = 0) {
     cv::imshow(nameOfWindow, img);
@@ -10,15 +11,20 @@ void showImage(cv::Mat img, std::string nameOfWindow, int timeInMilliSeconds = 0
 }
 
 int main() {
-    int size = 1;
-    int blurSize = 7;
+    int size = 2;
+    int blurSize = 9;
 
     string* inputNames = new string[size];
     inputNames[0] = "data/input/1.jpg";
+    inputNames[1] = "data/input/2.jpg";
 
-    cv::Mat* blurredImages = BlurImages::blurImages(normal, inputNames, 1, 5);   
+    Mat* blurredImages = BlurImages::blurImages(normal, inputNames, size, blurSize);   
 
-    showImage(blurredImages[0], "Blurred Image", 10000);
+    for (int i = 0; i < size; i++) {
+        if (blurredImages[i].data) {
+            showImage(blurredImages[i], inputNames[i], 1000);           
+        }
+    }
 
     return 0;
 }
